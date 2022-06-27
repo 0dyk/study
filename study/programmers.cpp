@@ -1,49 +1,248 @@
-#include <stdio.h>
-#include <stdbool.h>
-#include <stdlib.h>
 
-// lottos_len은 배열 lottos의 길이입니다.
-// win_nums_len은 배열 win_nums의 길이입니다.
-int* solution(int lottos[], size_t lottos_len, int win_nums[], size_t win_nums_len) {
-    // return 값은 malloc 등 동적 할당을 사용해주세요. 할당 길이는 상황에 맞게 변경해주세요.
-    int* answer = (int*)malloc(1);
+
+/* lv1.
 
 
 
+*/
 
 
+/* lv1.
+
+
+
+*/
+
+
+/* lv1.
+
+
+
+*/
+
+
+/* lv1.
+
+
+
+*/
+
+
+/* lv1. 평균 구하기
+
+#include <string>
+#include <vector>
+
+using namespace std;
+
+double solution(vector<int> arr) {
+    double answer = 0;
+
+    for(int i = 0; i < arr.size(); i++){
+        answer += arr[i];
+    }
+
+    answer = answer / arr.size();
+
+    return answer;
+}
+
+
+numeric의 accumulate를 사용
+
+#include <string>
+#include <vector>
+#include <numeric>
+using namespace std;
+
+double solution(vector<int> arr) {
+    double answer = accumulate(arr.begin(), arr.end(), 0);
+
+    return answer / arr.size();
+}
+
+*/
+
+
+
+/* lv1. 하샤드 수
+
+#include <string>
+#include <vector>
+
+using namespace std;
+
+bool solution(int x) {
+    bool answer = true;
+    int sum = 0;
+    int temp = x;
+
+    while(temp > 0){
+        sum += temp%10;
+        temp /= 10;
+    }
+
+    if (x % sum != 0) answer = false;
+
+    return answer;
+}
+
+*/
+
+
+
+/* lv1. 핸드폰 번호 가리기
+
+#include <string>
+#include <vector>
+
+using namespace std;
+
+string solution(string phone_number) {
+    string answer = "";
+
+    for (int i = 0; i < phone_number.size() - 4; i++) {
+        phone_number[i] = '*';
+    }
+
+    return phone_number;
+}
+
+문제 수정안하고 하면
+
+#include <string>
+#include <vector>
+
+using namespace std;
+
+string solution(string phone_number) {
+    string answer = "";
+
+    answer = phone_number;
+
+    for (int i = 0; i < phone_number.size() - 4; i++) {
+        answer[i] = '*';
+    }
+
+    return answer;
+}
+
+*/
+
+
+
+/* lv1. 행렬의 덧셈
+
+#include <string>
+#include <vector>
+
+using namespace std;
+
+vector<vector<int>> solution(vector<vector<int>> arr1, vector<vector<int>> arr2) {
+    vector<vector<int>> answer;
+
+    for(int i=0; i < arr1.size(); i++){
+        vector<int> temp;
+
+        for(int j=0; j < arr1[i].size(); j++){
+            temp.push_back(arr1[i][j] + arr2[i][j]);
+        }
+
+        answer.push_back(temp);
+    }
+
+    return answer;
+}
+
+*/
+
+
+
+/* lv1. x만큼 간격이 있는 n개의 숫자
+
+#include <string>
+#include <vector>
+
+using namespace std;
+
+vector<long long> solution(int x, int n) {
+    vector<long long> answer;
+
+    for (int i = 1; i<n+1; i++){
+        answer.push_back(x*i);
+    }
 
     return answer;
 }
 
 
 
+#include <string>
+#include <vector>
 
+using namespace std;
 
+vector<long long> solution(int x, int n) {
+    vector<long long> answer(n, x);
 
+    for (int i = 1; i < n; i++)
+        answer[i] = answer[i - 1] + x;
 
-
-
-/* lv1.
-
-
-
-*/
-
-
-
-/* lv1.
-
+    return answer;
+}
 
 
 */
 
 
 
-/* lv1. 
+/* lv1. 직사각형 별찍기
+* 
+#include <iostream>
 
+using namespace std;
 
+int main(void) {
 
+    int a;
+    int b;
+
+    cin >> a >> b;
+
+    for (int i = 0; i < b; i++) {
+
+        for (int j = 0; j < a; j++) {
+            cout << "*";
+        }
+
+        cout << endl;
+    }
+
+    return 0;
+}
+
+문자열을 사용하여 for을 한 번만 사용.
+
+#include <iostream>
+
+using namespace std;
+
+int main(void) {
+
+    int a;
+    int b;
+
+    cin >> a >> b;
+
+    string s = "";
+    s.append(a, '*');
+
+    for (int i = 0; i < b; i++) {
+        cout << s << endl;
+    }
+
+    return 0;
+}
 */
 
 
