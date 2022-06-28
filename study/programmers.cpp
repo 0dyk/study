@@ -1,4 +1,64 @@
+/*
+1렙 14/55
+2렙 0/76
+3렙 0/57
+4렙 0/21
+5렙 0/12
+*/
 
+
+
+
+/* lv1.
+
+
+
+*/
+
+
+/* lv1.
+
+
+
+*/
+
+/* lv1.
+
+
+
+*/
+
+/* lv1.
+
+
+
+*/
+
+
+/* lv1.
+
+
+
+*/
+
+/* lv1.
+
+
+
+*/
+
+/* lv1.
+
+
+
+*/
+
+
+/* lv1.
+
+
+
+*/
 
 /* lv1.
 
@@ -20,10 +80,295 @@
 
 */
 
+/* lv1. 정수 내림차순으로 배치하기
 
-/* lv1.
+#include <string>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+long long solution(long long n) {
+    long long answer = 0;
+
+    string temp = to_string(n);
+
+    sort(temp.rbegin(), temp.rend());
+
+    return stoll(temp);
+}
+
+*/
 
 
+/* lv1. 정수 제곱근 판별
+
+#include <string>
+#include <vector>
+#include <cmath>
+
+using namespace std;
+
+long long solution(long long n) {
+    long long answer = 0;
+
+    double x = sqrt(n);
+
+    return x - (int)x ? -1 : (x+1)*(x+1);
+}
+
+이게 더 간단한가?
+
+#include <string>
+#include <vector>
+#include <math.h>
+using namespace std;
+
+long long solution(long long n) {
+    long long answer = sqrt(n);
+
+    return powl(answer, 2) == n ? powl(answer + 1, 2) : -1;
+}
+
+*/
+
+
+/* lv1. 제일 작은 수 제거하기
+
+#include <string>
+#include <vector>
+
+using namespace std;
+
+vector<int> solution(vector<int> arr) {
+    vector<int> answer;
+
+    int min = 0;
+
+    for (int i = 0; i < arr.size(); i++) {
+
+        if (arr[min] > arr[i]) {
+            min = i;
+        }
+    }
+
+    arr.erase(arr.begin() + min);
+
+    if(arr.empty()){
+        arr.push_back(-1);
+    }
+
+    return arr;
+}
+
+min_element사용 최대한 간단하게
+
+#include <string>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+vector<int> solution(vector<int> arr) {
+    vector<int> answer;
+
+    arr.erase(min_element(arr.begin(), arr.end()));
+
+    return arr.empty() ? vector<int>(1, -1) : arr;
+}
+
+
+*/
+
+
+/* lv1. 짝수와 홀수
+
+#include <string>
+#include <vector>
+
+using namespace std;
+
+string solution(int num) {
+    string answer = "";
+
+    if(num % 2 == 0){
+        answer = "Even";
+    }
+    else{
+        answer = "Odd";
+    }
+
+    return answer;
+}
+
+밑에거 따라한거 ㅋㅋ
+
+#include <string>
+#include <vector>
+
+using namespace std;
+
+string solution(int num) {
+    string answer = "";
+
+    return num % 2 ? "Odd" : "Even";
+}
+
+비트 연산자 이용해서 짝수 @@
+짝수 ~~~~~~~~~0 % 0000000001 하면 1
+홀수 ~~~~~~~~~1 % 0000000001 하면 0
+
+num & 1 ? "Odd" : "Even";
+
+*/
+
+
+/* lv1. 최대공약수와 최소공배수
+
+유클리드 호제법
+
+#include <string>
+#include <vector>
+
+using namespace std;
+
+vector<int> solution(int n, int m) {
+    vector<int> answer;
+
+    int a, b, c;
+    a = n;
+    b = m;
+
+    while(b != 0){
+        c = a % b;
+        a = b;
+        b = c;
+    }
+
+    answer.push_back(a);
+    answer.push_back(n * m / a);
+
+    return answer;
+}
+
+유클리드 호제법 없이 구하기
+
+#include <string>
+#include <vector>
+
+using namespace std;
+
+vector<int> solution(int n, int m) {
+    vector<int> answer;
+
+    int min, max;
+    if(n<m){
+        min = n;
+        max = m;
+    }
+    else{
+        min = m;
+        max = n;
+    }
+
+    for(int i = min; i>=1;i--){
+        if(n%i==0 && m%i==0){
+            answer.push_back(i);
+            break;
+        }
+    }
+
+    for(int i = max; i<= n*m;i++){
+        if(i%n == 0 && i%m == 0){
+            answer.push_back(i);
+            break;
+        }
+    }
+
+    return answer;
+}
+
+신기한 놈이 한거 @@
+return에 삼항연산자 쓰고 b가 0일떄 빠져나오니 true false 하는게 ㅎㄷ 재귀되는거 까지
+
+int Euclidean(int a, int b)
+{
+    return b ? Euclidean(b, a%b) : a;
+}
+
+vector<int> gcdlcm(int a,int b)
+{
+    vector<int> answer;
+    // 유클리드 호제법
+  answer.push_back(Euclidean(a,b));
+
+  answer.push_back(a*b / answer[0]);
+
+    return answer;
+}
+
+*/
+
+
+/* lv1. 콜라츠 추측
+
+#include <string>
+#include <vector>
+
+using namespace std;
+
+int solution(int num) {
+    int answer = 0;
+
+    long long n = num;
+
+    while (n != 1) {
+
+        if(n % 2 == 00){
+            n /= 2;
+        }
+        else{
+            n = n*3 + 1;
+        }
+
+        answer +=1;
+
+        if(answer == 500){
+            answer = -1;
+            break;
+        }
+
+    }
+
+    return answer;
+}
+
+매우 짧게
+
+#include <string>
+#include <vector>
+
+using namespace std;
+
+int solution(int num) {
+    int answer = 0;
+
+    long long n = num;
+
+    while (n != 1) {
+
+        n % 2 == 0 ? n /= 2 : n = n * 3 + 1;
+        answer++;
+
+        if(answer == 500){
+            answer = -1;
+            break;
+        }
+
+    }
+
+    return answer;
+}
 
 */
 
@@ -310,7 +655,7 @@ string solution(string new_id) {
 }
 
 
-실압근
+실압근 @@
 
 #include <bits/stdc++.h>
 using namespace std;
@@ -390,7 +735,7 @@ vector<int> solution(vector<string> id_list, vector<string> report, int k) {
 }
 
 
-other solution, use unique
+other solution, use unique @@
 
 #include <bits/stdc++.h>
 #define fastio cin.tie(0)->sync_with_stdio(0)
