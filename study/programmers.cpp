@@ -1,5 +1,5 @@
 /*
-1렙 14/55
+1렙 23/55
 2렙 0/76
 3렙 0/57
 4렙 0/21
@@ -22,11 +22,6 @@
 
 */
 
-/* lv1.
-
-
-
-*/
 
 /* lv1.
 
@@ -35,50 +30,377 @@
 */
 
 
-/* lv1.
+/* lv1. 서울에서 김서방 찾기
 
+#include <string>
+#include <vector>
+
+using namespace std;
+
+string solution(vector<string> seoul) {
+    string answer = "";
+
+    for(int i = 0; i < seoul.size(); i++)
+    {
+        if(seoul[i] == "Kim")
+        {
+            answer = "김서방은 " + to_string(i) + "에 있다";
+        }
+    }
+
+    return answer;
+}
+
+find 사용 @@
+
+#include <string>
+#include <vector>
+#include <iterator>
+#include <algorithm>
+
+using namespace std;
+
+string solution(vector<string> seoul) {
+    string answer = "";
+
+    int pos = find(seoul.begin(),seoul.end(),"Kim") - seoul.begin();
+
+    answer = "김서방은 " + to_string(pos) + "에 있다";
+
+    return answer;
+}
 
 
 */
 
-/* lv1.
 
+/* lv1. 소수 찾기
 
+에라토스테네스의 체 
+
+#include <string>
+#include <vector>
+
+using namespace std;
+
+int solution(int n) {
+    int answer = 0;
+
+    vector<bool> v(n, true);
+
+    for(int i = 2; i <= n; i++){
+        if(v[i] == true){
+            for(int j = 2; i*j <= n; j++){
+                v[j*i] = false;
+            }
+
+            answer++;
+        }
+    }
+
+    return answer;
+}
+
+시간 복잡도를 조금 줄인 방식
+
+int numOfPrime(int n)
+{
+    int answer = 0;
+    bool isPrime = true;
+
+  for( int i = 2 ; i <= n ; ++i )
+  {
+    isPrime = true;
+    for( int j = 2 ; j * j <= i ; ++j )
+    {
+      if( i % j == 0 )
+      {
+        isPrime = false;
+        break;
+      }
+    }
+    if( isPrime )
+    {
+      answer++;
+    }
+  }
+    return answer;
+}
+
+for문을 2중으로 사용하면 시간 복잡도가 ^2가 되어 시간 초과
+
+#include <string>
+#include <vector>
+
+using namespace std;
+
+bool prime(int a){
+    for(int i = 2; i < a; i++){
+        if(a % i == 0) return false;
+    }
+    return true;
+}
+
+int solution(int n) {
+    int answer = 0;
+
+    for(int i = 2; i <= n; i++){
+        answer += prime(i);
+    }
+
+    return answer;
+}
 
 */
 
-/* lv1.
 
+/* lv1. 수박수박수박수박수박수?
 
+#include <string>
+#include <vector>
 
-*/
+using namespace std;
 
+string solution(int n) {
+    string answer = "";
 
-/* lv1.
-
-
-
-*/
-
-/* lv1.
-
-
-
-*/
-
-
-/* lv1.
-
-
+    for(int i = 0; i < n; i++){
+        i & 1 ? answer += "박" : answer += "수";
+    }
+    
+    return answer;
+}
 
 */
 
 
-/* lv1.
+/* lv1. 문자열을 정수로 바꾸기
 
+#include <string>
+#include <vector>
 
+using namespace std;
+
+int solution(string s) {
+    int answer = 0;
+
+    answer = stoi(s);
+
+    return answer;
+}
 
 */
+
+
+/* lv1. 시저 암호
+
+#include <string>
+#include <vector>
+
+using namespace std;
+
+string solution(string s, int n) {
+    string answer = "";
+
+    for (int i = 0; i < s.size(); i++) {
+
+        if (s[i] >= 'A' && s[i] <= 'Z'){
+            s[i] = (s[i] + n - 'A') % 26 + 'A';
+        }
+
+        if (s[i] >= 'a' && s[i] <= 'z'){
+            s[i] = (s[i] + n - 'a') % 26 + 'a';
+        }
+    }
+
+    answer = s;
+
+    return answer;
+}
+
+*/
+
+
+/* lv1. 약수의 합
+
+#include <string>
+#include <vector>
+
+using namespace std;
+
+int solution(int n) {
+    int answer = 0;
+    int i = n;
+
+    while(i >= 1){
+        if(n % i == 0){
+            answer += i;
+        }
+
+        i--;
+    }
+
+    return answer;
+}
+
+제곱근 사용 @@
+
+#include <string>
+#include <vector>
+#include<cmath>
+
+using namespace std;
+
+int solution(int n) {
+    int answer = 0;
+
+    for(int i=1; i<=sqrt(n); i++){
+        if(n%i==0){
+            answer += i;
+            
+            if(n!=i*i){
+                answer += n/i; 
+            }
+        }
+    }
+
+    return answer;
+}
+
+*/
+
+
+/* lv1. 이상한 문자 만들기
+
+#include <string>
+#include <vector>
+
+using namespace std;
+
+string solution(string s) {
+    string answer = "";
+
+    int temp = 0;
+
+    for(int i=0; i<s.size(); i++){
+
+        if(s[i] == ' '){
+            temp=0;
+            continue;
+        }
+
+        if(temp & 1){
+            s[i] = tolower(s[i]);
+        }
+        else{
+            s[i] = toupper(s[i]);
+        }
+
+        temp++;
+    }
+
+    answer = s;
+
+    return answer;
+}
+
+아스키 코드로 A~Z : 65~90, a~z : 97~ 122 대소문자 32차이
+
+#include <string>
+#include <vector>
+
+using namespace std;
+
+string solution(string s) {
+    string answer = "";
+    
+    int temp = 0;
+
+    for(int i=0; i<s.size(); i++){
+
+        if(s[i] == ' '){
+            temp=0;
+            continue;
+        }
+
+        if(temp & 1){
+            if(s[i] <= 'Z') s[i]+=32;
+        }
+        else{
+            if(s[i] >= 'a') s[i]-=32;
+        }
+
+        temp++;
+    }
+
+    answer = s;
+
+    return answer;
+}
+
+*/
+
+
+/* lv1. 자릿수 더하기
+
+#include <iostream>
+
+using namespace std;
+int solution(int n)
+{
+    int answer = 0;
+
+    while(n > 0){
+    answer += n%10;
+    n /= 10;
+    }
+
+    return answer;
+}
+
+문자열로 -'0'? @@
+
+#include <iostream>
+#include <string>
+
+using namespace std;
+int solution(int n)
+{
+    int answer = 0;
+
+    string s = to_string(n);
+
+    for(int i = 0; i < s.size(); i++) answer += (s[i] - '0');
+
+    // [실행] 버튼을 누르면 출력 값을 볼 수 있습니다.
+    cout << "Hello Cpp" << endl;
+
+    return answer;
+}
+
+*/
+
+
+/* lv1. 자연수 뒤집어 배열로 만들기
+
+#include <string>
+#include <vector>
+
+using namespace std;
+
+vector<int> solution(long long n) {
+    vector<int> answer;
+
+    while (n > 0) {
+        answer.push_back(n % 10);
+        n /= 10;
+    }
+
+    return answer;
+}
+
+*/
+
 
 /* lv1. 정수 내림차순으로 배치하기
 
