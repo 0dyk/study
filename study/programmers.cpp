@@ -1,5 +1,5 @@
 /*
-1렙 23/55
+1렙 30/55
 2렙 0/76
 3렙 0/57
 4렙 0/21
@@ -8,24 +8,684 @@
 
 
 
+/* lv1. 신고 결과 받기
 
-/* lv1.
+#include <string>
+#include <vector>
+#include <map>
+#include <set>
+#include <sstream>
+
+
+using namespace std;
+
+
+
+vector<int> solution(vector<string> id_list, vector<string> report, int k) {
+    vector<int> answer(id_list.size(), 0);
+
+    map<string, int> id_count;
+    map<string, set<string>> report_list;        // set : 중복 방지
+
+    for (int i = 0; i < id_list.size(); ++i) {
+        id_count[id_list[i]] = i;       // id 저장
+    }
+
+    for (auto rep : report) {
+        stringstream ss(rep);
+        string reporter, reported;
+        ss >> reporter >> reported;
+
+        report_list[reported].insert(reporter);      // reporter, reported 저장
+    }
+
+    for (auto list : report_list) {
+        if (list.second.size() >= k) {      // second = reporter : 신고한 사람이 k 이상
+            for (auto first : list.second) {
+                answer[id_count[first]]++;
+            }
+        }
+    }
+
+    return answer;
+}
+
+
+other solution, use unique @@
+
+#include <bits/stdc++.h>
+#define fastio cin.tie(0)->sync_with_stdio(0)
+using namespace std;
+
+vector<int> solution(vector<string> id_list, vector<string> report, int k) {
+    // 1.
+    const int n = id_list.size();
+    map<string, int> Conv;
+    for (int i = 0; i < n; i++) Conv[id_list[i]] = i;
+
+    // 2.
+    vector<pair<int, int>> v;
+    sort(report.begin(), report.end());
+    report.erase(unique(report.begin(), report.end()), report.end());
+    for (const auto& s : report) {
+        stringstream in(s);
+        string a, b; in >> a >> b;
+        v.push_back({ Conv[a], Conv[b] });
+    }
+
+    // 3.
+    vector<int> cnt(n), ret(n);
+    for (const auto& [a, b] : v) cnt[b]++;
+    for (const auto& [a, b] : v) if (cnt[b] >= k) ret[a]++;
+    return ret;
+}
+
+*/
+
+
+/* lv1. 로또의 최고 순위와 최저 순위
 
 
 
 */
 
 
-/* lv1.
+/* lv1. 신규 아이디 추천
+
+#include <string>
+#include <vector>
+
+using namespace std;
+
+string solution(string new_id) {
+    string answer = "";
+
+
+    for (int i = 0; i < new_id.length(); i++) {
+        if (new_id[i] >= 'A' && new_id[i] <= 'Z') {
+            new_id[i] = tolower(new_id[i]);
+        }
+    }
+
+    for (int i = 0; i < new_id.length(); ) {
+        if (isalpha(new_id[i]) || isdigit(new_id[i])
+            || new_id[i] == '-' || new_id[i] == '_' || new_id[i] == '.') {
+            i++;
+            continue;
+        }
+
+        new_id.erase(new_id.begin() + i);
+    }
+
+    for (int i = 1; i < new_id.length(); ) {
+        if (new_id[i] == '.' && new_id[i - 1] == '.') {
+            new_id.erase(new_id.begin() + i);
+            continue;
+        }
+        else i++;
+    }
+
+    if (new_id.front() == '.') {
+        new_id.erase(new_id.begin());
+    }
+    if (new_id.back() == '.') {
+        new_id.erase(new_id.end() - 1);
+    }
+
+    if (new_id.empty()) {
+        new_id = "a";
+    }
+
+    if (new_id.length() > 15) {
+        new_id.erase(new_id.begin() + 15, new_id.end());
+    }
+    if (new_id.back() == '.') {
+        new_id.erase(new_id.end() - 1);
+    }
+
+    while (new_id.length() < 3) {
+        new_id += new_id.back();
+    }
+
+    answer = new_id;
+
+    return answer;
+}
+
+실압근 @@
+
+#include <bits/stdc++.h>
+using namespace std;
+
+string solution(string new_id) {
+    for (char& ch : new_id) if ('A' <= ch && ch <= 'Z') ch |= 32;
+
+    string ret;
+    for (char& ch: new_id) {
+        if ('a' <= ch && ch <= 'z' ||
+            '0' <= ch && ch <= '9' ||
+            strchr("-_.", ch)) ret += ch;
+    }
+
+    new_id = ret;
+    ret.clear();
+    for (char& ch: new_id) {
+        if (!ret.empty() && ret.back() == '.' && ch == '.') continue;
+        ret += ch;
+    }
+
+    if (ret.front() == '.') ret.erase(ret.begin());
+    if (ret.back() == '.') ret.pop_back();
+
+    if (ret.empty()) ret = "a";
+    if (ret.size() >= 16) ret = ret.substr(0, 15);
+    if (ret.back() == '.') ret.pop_back();
+    while (ret.size() <= 2) ret += ret.back();
+
+    return ret;
+}
+
+*/
+
+
+/* lv1. 숫자 문자열과 영단어
 
 
 
 */
 
 
-/* lv1.
+/* lv1. 키패드 누르기
 
 
+
+*/
+
+
+/* lv1. 크레인 인형뽑기 게임
+
+
+
+*/
+
+
+/* lv1. 없는 숫자 더하기
+
+
+
+*/
+
+
+/* lv1. 음양 더하기
+
+
+
+*/
+
+
+/* lv1. 내적
+
+
+
+*/
+
+
+/* lv1. 소수 만들기
+
+
+
+*/
+
+
+/* lv1. 완주하지 못한 선수
+
+
+
+*/
+
+
+/* lv1. K번째수
+
+
+
+*/
+
+
+/* lv1. 모의고사
+
+
+
+*/
+
+
+/* lv1. 체육복
+
+
+
+*/
+
+
+/* lv1. 폰켓몬
+
+
+
+*/
+
+
+/* lv1. 실패율
+
+
+
+*/
+
+
+/* lv1. 약수의 개수와 덧셈
+
+
+
+*/
+
+
+/* lv1. 3진법 뒤집기
+
+
+
+*/
+
+
+/* lv1. 예산
+
+
+
+*/
+
+
+/* lv1. 두 개 뽑아서 더하기
+
+
+
+*/
+
+
+/* lv1. 2016년
+
+
+
+*/
+
+
+/* lv1. 최소직사각형
+
+
+
+*/
+
+
+/* lv1. 나머지가 1이 되는 수 찾기
+
+
+
+*/
+
+
+/* lv1. 부족한 금액 계산하기
+
+
+
+*/
+
+
+/* lv1. [1차] 비밀지도
+
+
+
+*/
+
+
+/* lv1. 가운데 글자 가져오기
+
+
+
+*/
+
+
+
+/* lv1. [1차] 다트 게임
+
+
+
+*/
+
+
+/* lv1. 같은 숫자는 싫어
+
+
+#include <vector>
+#include <iostream>
+
+
+using namespace std;
+
+vector<int> solution(vector<int> arr)
+{
+    vector<int> answer;
+
+    answer.push_back(arr[0]);
+
+    for(int i = 1; i < arr.size(); i++)
+    {
+        if(arr[i-1] != arr[i])
+        {
+            answer.push_back(arr[i]);
+        }
+    }
+
+    return answer;
+}
+
+if 부분을 밑에 처럼 가능
+
+if(answer.back() != arr[i]) answer.push_back(arr[i]);
+
+unique 사용 @@
+
+#include <vector>
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+vector<int> solution(vector<int> arr)
+{
+
+    arr.erase(unique(arr.begin(), arr.end()),arr.end());
+
+    vector<int> answer = arr;
+    return answer;
+}
+
+
+*/
+
+#include <vector>
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+vector<int> solution(vector<int> arr)
+{
+
+    arr.erase(unique(arr.begin(), arr.end()), arr.end());
+
+    vector<int> answer = arr;
+    return answer;
+}
+
+/* lv1. 나누어 떨어지는 숫자 배열
+
+#include <string>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+vector<int> solution(vector<int> arr, int divisor) {
+    vector<int> answer;
+
+
+    for(int i = 0; i < arr.size(); i++)
+    {
+        if(arr[i] % divisor == 0)
+        {
+            answer.push_back(arr[i]);
+        }
+    }
+
+    if(answer.empty())
+    {
+        answer.push_back(-1);
+    }
+
+    sort(answer.begin(), answer.end());
+
+    return answer;
+}
+
+if 문을 없얘고 return 값을 밑에 처럼 해도 ㅇㅋ
+
+return answer.empty() ? vector<int>(1,-1) : answer;
+
+*/
+
+
+/* lv1. 두 정수 사이의 합
+
+#include <string>
+#include <vector>
+
+using namespace std;
+
+long long solution(int a, int b) {
+    return (long long)(a + b) * (abs(a - b) + 1) / 2;;
+}
+
+비트 연산자 @@
+
+#include <string>
+#include <vector>
+
+using namespace std;
+
+long long solution(int a, int b) {
+    long long answer = 0;
+
+    if (a > b) a ^= b ^= a ^= b;
+
+    answer = (long long)b * -~b / 2 - (long long)a * ~-a / 2;
+
+    return answer;
+}
+
+*/
+
+
+/* lv1. 문자열 내 마음대로 정하기
+
+#include <string>
+#include <vector>
+#include <algorithm>
+
+
+using namespace std;
+
+int num;
+
+bool cmp(string a, string b){
+    if(a[num] == b[num])
+    {
+        return a < b;
+    }
+    else
+    {
+        return a[num] < b[num];
+    }
+}
+
+vector<string> solution(vector<string> strings, int n) {
+    vector<string> answer;
+
+    num = n;
+
+    sort(strings.begin(), strings.end(), cmp);
+
+    answer = strings;
+
+    return answer;
+}
+
+lamda 함수 사용 @@
+
+#include <string>
+#include <vector>
+#include <algorithm>
+
+
+using namespace std;
+
+vector<string> solution(vector<string> strings, int n) {
+    vector<string> answer;
+
+    sort(strings.begin(), strings.end(), [=](string a, string b) -> bool{
+        if(a[n] == b[n]) return a < b;
+        else return a[n] < b[n];
+    });
+
+    answer = strings;
+
+    return answer;
+}
+
+ㅏㅏㅏㅏㅏㅏㅏ
+
+
+*/
+
+
+/* lv1. 문자열 내 p와 y의 개수
+
+#include <string>
+#include <iostream>
+
+using namespace std;
+
+bool solution(string s)
+{
+    bool answer = true;
+
+    int cnt = 0;
+    
+    for(int i = 0; i < s.size(); i++)
+    {
+        if(s[i] == 'p' || s[i] == 'P')
+        {
+            cnt++;
+        }
+        if(s[i] == 'y' || s[i] == 'Y')
+        {
+            cnt--;
+        }
+    }
+    
+    return cnt ? false : true;
+}
+
+*/
+
+
+/* lv1. 문자열 내림차순으로 배치하기
+
+sort 없이 for 두번 사용해서 하는 법
+
+#include <string>
+#include <vector>
+
+using namespace std;
+
+string solution(string s) {
+    string answer = "";
+
+    for(int i = 0; i < s.size(); i++)
+    {
+        for(int j = i + 1; j < s.size(); j++)
+        {
+            if(s[i] < s[j])
+            {
+                char temp = s[i];
+                s[i] = s[j];
+                s[j] = temp;
+            }
+        }
+    }
+
+    answer = s;
+
+    return answer;
+}
+
+algorithm sort 사용
+
+#include <string>
+#include <vector>
+#include <algorithm>
+
+
+using namespace std;
+
+string solution(string s) {
+    string answer = "";
+
+    sort(s.rbegin(), s.rend());
+
+    answer = s;
+
+    return answer;
+}
+
+*/
+
+
+/* lv1. 문자열 다루기 기본
+
+아스키 코드 값
+
+#include <string>
+#include <vector>
+
+using namespace std;
+
+bool solution(string s) {
+    bool answer = true;
+
+    if(s.size() != 4 && s.size() != 6)
+    {
+        answer = false;
+    }
+
+    for(int i = 0; i < s.size(); i++)
+    {
+        if(s[i] < '0' || s[i] > '9')
+        {
+            answer = false;
+        }
+    }
+
+    return answer;
+}
+
+isdigit 사용
+
+#include <string>
+#include <vector>
+
+using namespace std;
+
+bool solution(string s) {
+    bool answer = true;
+
+    if(s.size() != 4 && s.size() != 6)
+    {
+        answer = false;
+    }
+
+    for(int i = 0; i < s.size(); i++)
+    {
+        if(isdigit(s[i]) == false)
+        {
+            answer = false;
+        }
+    }
+
+    return answer;
+}
 
 */
 
@@ -910,180 +1570,4 @@ int main(void) {
 
     return 0;
 }
-*/
-
-
-
-/* lv1. 신규 아이디 추천
-
-#include <string>
-#include <vector>
-
-using namespace std;
-
-string solution(string new_id) {
-    string answer = "";
-
-
-    for (int i = 0; i < new_id.length(); i++) {
-        if (new_id[i] >= 'A' && new_id[i] <= 'Z') {
-            new_id[i] = tolower(new_id[i]);
-        }
-    }
-
-    for (int i = 0; i < new_id.length(); ) {
-        if (isalpha(new_id[i]) || isdigit(new_id[i])
-            || new_id[i] == '-' || new_id[i] == '_' || new_id[i] == '.') {
-            i++;
-            continue;
-        }
-
-        new_id.erase(new_id.begin() + i);
-    }
-
-    for (int i = 1; i < new_id.length(); ) {
-        if (new_id[i] == '.' && new_id[i - 1] == '.') {
-            new_id.erase(new_id.begin() + i);
-            continue;
-        }
-        else i++;
-    }
-
-    if (new_id.front() == '.') {
-        new_id.erase(new_id.begin());
-    }
-    if (new_id.back() == '.') {
-        new_id.erase(new_id.end() - 1);
-    }
-
-    if (new_id.empty()) {
-        new_id = "a";
-    }
-
-    if (new_id.length() > 15) {
-        new_id.erase(new_id.begin() + 15, new_id.end());
-    }
-    if (new_id.back() == '.') {
-        new_id.erase(new_id.end() - 1);
-    }
-
-    while (new_id.length() < 3) {
-        new_id += new_id.back();
-    }
-
-    answer = new_id;
-
-    return answer;
-}
-
-
-실압근 @@
-
-#include <bits/stdc++.h>
-using namespace std;
-
-string solution(string new_id) {
-    for (char& ch : new_id) if ('A' <= ch && ch <= 'Z') ch |= 32;
-
-    string ret;
-    for (char& ch: new_id) {
-        if ('a' <= ch && ch <= 'z' ||
-            '0' <= ch && ch <= '9' ||
-            strchr("-_.", ch)) ret += ch;
-    }
-
-    new_id = ret;
-    ret.clear();
-    for (char& ch: new_id) {
-        if (!ret.empty() && ret.back() == '.' && ch == '.') continue;
-        ret += ch;
-    }
-
-    if (ret.front() == '.') ret.erase(ret.begin());
-    if (ret.back() == '.') ret.pop_back();
-
-    if (ret.empty()) ret = "a";
-    if (ret.size() >= 16) ret = ret.substr(0, 15);
-    if (ret.back() == '.') ret.pop_back();
-    while (ret.size() <= 2) ret += ret.back();
-
-    return ret;
-}
-
-*/
-
-
-
-/* lv1. 신고결과 받기
-
-#include <string>
-#include <vector>
-#include <map>
-#include <set>
-#include <sstream>
-
-
-using namespace std;
-
-
-
-vector<int> solution(vector<string> id_list, vector<string> report, int k) {
-    vector<int> answer(id_list.size(), 0);
-
-    map<string, int> id_count;
-    map<string, set<string>> report_list;        // set : 중복 방지
-
-    for (int i = 0; i < id_list.size(); ++i) {
-        id_count[id_list[i]] = i;       // id 저장
-    }
-
-    for (auto rep : report) {
-        stringstream ss(rep);
-        string reporter, reported;
-        ss >> reporter >> reported;
-
-        report_list[reported].insert(reporter);      // reporter, reported 저장
-    }
-
-    for (auto list : report_list) {
-        if (list.second.size() >= k) {      // second = reporter : 신고한 사람이 k 이상
-            for (auto first : list.second) {
-                answer[id_count[first]]++;
-            }
-        }
-    }
-
-    return answer;
-}
-
-
-other solution, use unique @@
-
-#include <bits/stdc++.h>
-#define fastio cin.tie(0)->sync_with_stdio(0)
-using namespace std;
-
-vector<int> solution(vector<string> id_list, vector<string> report, int k) {
-    // 1.
-    const int n = id_list.size();
-    map<string, int> Conv;
-    for (int i = 0; i < n; i++) Conv[id_list[i]] = i;
-
-    // 2.
-    vector<pair<int, int>> v;
-    sort(report.begin(), report.end());
-    report.erase(unique(report.begin(), report.end()), report.end());
-    for (const auto& s : report) {
-        stringstream in(s);
-        string a, b; in >> a >> b;
-        v.push_back({ Conv[a], Conv[b] });
-    }
-
-    // 3.
-    vector<int> cnt(n), ret(n);
-    for (const auto& [a, b] : v) cnt[b]++;
-    for (const auto& [a, b] : v) if (cnt[b] >= k) ret[a]++;
-    return ret;
-}
-
 */

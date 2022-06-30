@@ -758,6 +758,8 @@ void test()
 
 }
 
+
+
 int main()
 {
 	g_istatic;
