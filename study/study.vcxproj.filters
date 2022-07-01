@@ -21,7 +21,7 @@
     <ClCompile Include="assort_youtube.cpp">
       <Filter>헤더 파일</Filter>
     </ClCompile>
-    <ClCompile Include="programmers.cpp">
+    <ClCompile Include="programmers_lv1.cpp">
       <Filter>헤더 파일</Filter>
     </ClCompile>
   </ItemGroup>

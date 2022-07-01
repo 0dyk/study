@@ -1,5 +1,5 @@
 /*
-1렙 30/55
+1렙 35/55
 2렙 0/76
 3렙 0/57
 4렙 0/21
@@ -323,36 +323,304 @@ string solution(string new_id) {
 
 /* lv1. 나머지가 1이 되는 수 찾기
 
+#include <string>
+#include <vector>
 
+using namespace std;
+
+int solution(int n) {
+
+    for(int i = 2; i < n; i++)
+    {
+        if(n % i == 1)
+        {
+            return i;
+        }
+    }
+}
 
 */
 
 
 /* lv1. 부족한 금액 계산하기
 
+using namespace std;
 
+long long solution(int price, int money, int count)
+{
+    long long answer = 0;
+
+
+
+    if (money - (long long)price * count * (count + 1) / 2 < 0)
+    {
+        answer = (long long)price * count * (count + 1) / 2 - money;
+    }
+    else
+    {
+        answer = 0;
+    }
+
+    return answer;
+}
+
+한줄
+
+using namespace std;
+
+long long solution(int price, int money, int count)
+{
+    long long res = money - (long long)price * count * (count + 1) / 2;
+
+    return res < 0 ? - res : 0;
+}
+
+(long long)1 = 1LL
+
+    long long res = money - 1LL * price * count * (count + 1) / 2;
 
 */
 
 
 /* lv1. [1차] 비밀지도
 
+#include <string>
+#include <vector>
+#include <cmath>
 
+
+using namespace std;
+
+vector<string> solution(int n, vector<int> arr1, vector<int> arr2) {
+    vector<string> answer;
+
+    for (int i = 0; i < n; i++)
+    {
+        string tmp = "";
+
+        arr1[i] = arr1[i] | arr2[i];
+
+        for (int j = n; j > 0; j--)
+        {
+            if (arr1[i] - pow(2, j - 1) >= 0)
+            {
+                tmp.push_back('#');
+                arr1[i] -= pow(2, j - 1);
+            }
+            else
+            {
+                tmp.push_back(' ');
+            }
+        }
+
+        answer.push_back(tmp);
+    }
+
+    return answer;
+}
+
+2의 n승보다 큰가? 뒤에다 추가 -> 2로 나누어 지나? 앞에다 붙여주는 방식
+2의 n승을 빼주는 방법을 비트 연산자를 한칸씩 미는 방법(>>)으로
+
+#include <string>
+#include <vector>
+
+using namespace std;
+
+vector<string> solution(int n, vector<int> arr1, vector<int> arr2) {
+    vector<string> answer;
+    for(int i=0; i <n ; i++)
+    {
+        string tmp = "";
+
+        arr1[i] = arr1[i] | arr2[i];
+        
+        for(int j = 0; j < n; j++)
+        {
+            if(arr1[i] % 2 == 0) 
+            {
+                tmp = " " + tmp;
+            }            
+            else
+            {
+                tmp = "#" + tmp;
+            }
+            
+            arr1[i] = arr1[i] >> 1;
+        }
+
+        answer.push_back(tmp);
+    }
+
+    return answer;
+}
 
 */
 
 
 /* lv1. 가운데 글자 가져오기
 
+#include <string>
+#include <vector>
 
+using namespace std;
+
+string solution(string s) {
+    string answer = "";
+
+    if(s.size() % 2)
+    {
+        answer += s[s.length() / 2];
+    }
+    else
+    {
+        answer += s[s.length() / 2 - 1];
+        answer += s[s.length() / 2];
+    }
+
+    return answer;
+}
+
+substr 사용
+
+answer = s.subetr(s.length() / 2 - 1, 2);
+answer = s.subetr(s.length() / 2, 1);
+
+한줄
+
+#include <string>
+
+using namespace std;
+
+string solution(string s) {
+    return s.length() & 2 ? s.substr(s.length() / 2, 1) : s.substr(s.length() / 2 - 1, 2);
+}
 
 */
 
 
-
 /* lv1. [1차] 다트 게임
 
+#include <string>
 
+using namespace std;
+
+int solution(string dartResult) {
+    int answer = 0;
+
+
+    int arr[3] = { 0, 0, 0}, index = 0;
+    string num;
+
+    for (int i = 0; i < dartResult.size(); i++)
+    {
+        if (isdigit(dartResult[i]))
+        {
+            num += dartResult[i];
+        }
+
+        else
+        {
+            if (dartResult[i] == 'S')
+            {
+                arr[index] = stoi(num);
+                index++;
+            }
+            else if (dartResult[i] == 'D')
+            {
+                arr[index] = stoi(num) * stoi(num);
+                index++;
+            }
+            else if (dartResult[i] == 'T')
+            {
+                arr[index] = stoi(num) * stoi(num) * stoi(num);
+                index++;
+            }
+
+            else if (dartResult[i] == '*')
+            {
+                arr[index - 1] *= 2;
+
+                if (index > 1)
+                {
+                    arr[index - 2] *= 2;
+                }
+            }
+            else if (dartResult[i] == '#')
+            {
+                arr[index - 1] *= -1;
+            }
+
+            num = "";
+        }
+
+    }
+
+    for (int i = 0; i < 3; i++)
+    {
+        answer += arr[i];
+    }
+
+    return answer;
+}
+
+stringstream과 switch 사용
+
+#include <string>
+#include <sstream>
+#include <cmath>
+
+using namespace std;
+
+int solution(string dartResult) {
+    stringstream ss(dartResult);
+
+    int sum[3] = { 0, 0, 0 };
+    int options[3] = { 1, 1, 1 };
+
+    for (int i = 0; i < 3; i++) {
+        int score;
+        char bonus;
+        char option;
+
+        ss >> score;
+
+        bonus = ss.get(); // 커서를 하나씩 옮기면서 값을 반환
+        option = ss.get(); 
+
+        if (option != '*' && option != '#') {
+            ss.unget(); // 커서를 앞으로 다시 옮긴다.
+        }
+
+        switch (bonus) {
+        case 'S':
+            sum[i] += pow(score, 1);
+            break;
+        case 'D':
+            sum[i] += pow(score, 2);
+            break;
+        case 'T':
+            sum[i] += pow(score, 3);
+            break;
+        default:
+            break;
+        }
+
+        switch (option) {
+        case '*':
+            if (i > 0 && options[i - 1]) options[i - 1] *= 2;
+            options[i] *= 2;
+            break;
+        case '#':
+            options[i] = -options[i];
+            break;
+        default:
+            break;
+        }
+    }
+
+    return sum[0] * options[0] + sum[1] * options[1] + sum[2] * options[2];
+}
 
 */
 
@@ -406,19 +674,6 @@ vector<int> solution(vector<int> arr)
 
 */
 
-#include <vector>
-#include <iostream>
-#include <algorithm>
-using namespace std;
-
-vector<int> solution(vector<int> arr)
-{
-
-    arr.erase(unique(arr.begin(), arr.end()), arr.end());
-
-    vector<int> answer = arr;
-    return answer;
-}
 
 /* lv1. 나누어 떨어지는 숫자 배열
 

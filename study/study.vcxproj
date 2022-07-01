@@ -141,7 +141,7 @@
   <ItemGroup>
     <ClCompile Include="assort_youtube.cpp" />
     <ClCompile Include="backjoon.cpp" />
-    <ClCompile Include="programmers.cpp" />
+    <ClCompile Include="programmers_lv1.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
