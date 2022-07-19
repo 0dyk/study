@@ -1,5 +1,5 @@
 /*
-1렙 35/55
+1렙 43/55
 2렙 0/76
 3렙 0/57
 4렙 0/21
@@ -16,10 +16,7 @@
 #include <set>
 #include <sstream>
 
-
 using namespace std;
-
-
 
 vector<int> solution(vector<string> id_list, vector<string> report, int k) {
     vector<int> answer(id_list.size(), 0);
@@ -51,7 +48,7 @@ vector<int> solution(vector<string> id_list, vector<string> report, int k) {
 }
 
 
-other solution, use unique @@
+use unique @@
 
 #include <bits/stdc++.h>
 #define fastio cin.tie(0)->sync_with_stdio(0)
@@ -85,7 +82,33 @@ vector<int> solution(vector<string> id_list, vector<string> report, int k) {
 
 /* lv1. 로또의 최고 순위와 최저 순위
 
+#include <vector>
 
+using namespace std;
+
+vector<int> solution(vector<int> lottos, vector<int> win_nums) {
+    vector<int> answer(2, 0);
+
+    int ok = 0, no = 0;
+
+    for (int n : lottos)
+    {
+        for (int i = 0; i < 6; i++)
+        {
+            if (n == win_nums[i]) ok++;
+        }
+
+        if (n == 0) no++;
+    }
+
+    if(ok + no < 2) answer[0] = 6;
+    else answer[0] = 7 - ok - no;
+
+    if(ok < 2) answer[1] = 6;
+    else answer[1] = 7 - ok;
+
+    return answer;
+}
 
 */
 
@@ -190,62 +213,507 @@ string solution(string new_id) {
 
 /* lv1. 숫자 문자열과 영단어
 
+#include <string>
+#include <vector>
 
+using namespace std;
+
+int solution(string s) {
+    string answer = "";
+
+
+    for(int i = 0; i < s.size(); i++)
+    {
+        if(s[i] >= '0' && s[i] <= '9')
+        {
+            answer += s[i];
+        }
+
+        else
+        {
+            if(s.substr(i,4) == "zero"){
+                answer += '0';
+                i += 3;
+            }
+            else if(s.substr(i,3) == "one"){
+                answer += '1';
+                i += 2;
+            }
+            else if(s.substr(i,3) == "two"){
+                answer += '2';
+                i += 2;
+            }
+            else if(s.substr(i,5) == "three"){
+                answer += '3';
+                i += 4;
+            }
+            else if(s.substr(i,4) == "four"){
+                answer += '4';
+                i += 3;
+            }
+            else if(s.substr(i,4) == "five"){
+                answer += '5';
+                i += 3;
+            }
+            else if(s.substr(i,3) == "six"){
+                answer += '6';
+                i += 2;
+            }
+            else if(s.substr(i,5) == "seven"){
+                answer += '7';
+                i += 4;
+            }
+            else if(s.substr(i,5) == "eight"){
+                answer += '8';
+                i += 4;
+            }
+            else if(s.substr(i,4) == "nine"){
+                answer += '9';
+                i += 3;
+            }
+        }
+    }
+
+    return stoi(answer);
+}
+
+정규표현식, 정규식, regex 사용
+
+#include <string>
+#include <vector>
+#include <regex>
+
+using namespace std;
+
+int solution(string s) {
+    int answer = 0;
+
+    s = regex_replace(s, regex("zero"), "0");
+    s = regex_replace(s, regex("one"), "1");
+    s = regex_replace(s, regex("two"), "2");
+    s = regex_replace(s, regex("three"), "3");
+    s = regex_replace(s, regex("four"), "4");
+    s = regex_replace(s, regex("five"), "5");
+    s = regex_replace(s, regex("six"), "6");
+    s = regex_replace(s, regex("seven"), "7");
+    s = regex_replace(s, regex("eight"), "8");
+    s = regex_replace(s, regex("nine"), "9");
+
+    answer = stoi(s);
+
+    return answer;
+}
+
+배열?
+
+#include <string>
+#include <vector>
+
+
+using namespace std;
+
+int solution(string s) {
+    string answer = "";
+
+    vector<string> v = {"zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"};
+
+    for(int i = 0; i < s.size(); i++)
+    {
+        if(s[i] >= '0' && s[i] <= '9')
+        {
+            answer += s[i];
+        }
+
+        else
+        {
+            for(int j = 0; j < 10; j++)
+            {
+                if(s[i] == v[j][0] && s[i+1] == v[j][1])
+                {
+                    char tmp = j + '0';
+                    answer += tmp;
+                    i += v[j].size() - 1;
+                    break;
+                }
+            }
+        }
+    }
+
+    return stoi(answer);
+}
 
 */
 
 
 /* lv1. 키패드 누르기
 
+#include <string>
+#include <vector>
+#include <cmath>
 
+using namespace std;
+
+string solution(vector<int> numbers, string hand) {
+    string answer = "";
+
+    int left = 10, right = 12;
+    int l_dis = 0, r_dis = 0;
+
+    for (int n : numbers)
+    {
+        if (n == 1 || n == 4 || n == 7)
+        {
+            answer += "L";
+            left = n;
+        }
+        else if (n == 3 || n == 6 || n == 9)
+        {
+            answer += "R";
+            right = n;
+        }
+        else // 2,5,8,0
+        {
+            if (n == 0) n = 11;
+
+            l_dis = (abs(n - left) / 3) + (abs(n - left) % 3);
+            r_dis = (abs(n - right) / 3) + (abs(n - right) % 3);
+
+            if (l_dis > r_dis)
+            {
+                answer += "R";
+                right = n;
+            }
+            else if (l_dis < r_dis)
+            {
+                answer += "L";
+                left = n;
+            }
+            else
+            {
+                if (hand == "left")
+                {
+                    answer += "L";
+                    left = n;
+                }
+                else
+                {
+                    answer += "R";
+                    right = n;
+                }
+            }
+        }
+    }
+
+    return answer;
+}
 
 */
 
 
 /* lv1. 크레인 인형뽑기 게임
 
+#include <vector>
 
+using namespace std;
+
+int solution(vector<vector<int>> board, vector<int> moves) {
+    int answer = 0;
+
+    vector<int> tmp;
+
+    for (int i = 0; i < moves.size(); i++)
+    {
+
+        for (int j = 0; j < board.size(); j++)
+        {
+            if (board[j][moves[i] - 1] != 0)
+            {
+                tmp.push_back(board[j][moves[i] - 1]);
+                board[j][moves[i] - 1] = 0;
+
+                if (tmp.size() >= 2 && (tmp[tmp.size() - 1] == tmp[tmp.size() - 2]))
+                {
+                    tmp.pop_back();
+                    tmp.pop_back();
+                    answer += 2;
+                }
+
+                break;
+            }
+        }
+    }
+
+    return answer;
+}
 
 */
 
 
 /* lv1. 없는 숫자 더하기
 
+#include <string>
+#include <vector>
 
+using namespace std;
+
+int solution(vector<int> numbers) {
+    int answer = 45;
+
+    for(int n : numbers) answer -= n;
+
+    return answer;
+}
 
 */
 
 
 /* lv1. 음양 더하기
 
+#include <string>
+#include <vector>
 
+using namespace std;
+
+int solution(vector<int> absolutes, vector<bool> signs) {
+    int answer = 0;
+
+    for(int i = 0; i < absolutes.size(); i++)
+    {
+        if(signs[i]) answer += absolutes[i];
+        else answer -= absolutes[i];
+    }
+
+    return answer;
+}
 
 */
 
 
 /* lv1. 내적
 
+#include <vector>
 
+using namespace std;
+
+int solution(vector<int> a, vector<int> b) {
+    int answer = 0;
+
+    for(int i = 0; i < a.size(); i++)
+    {
+        answer += a[i] * b[i];
+    }
+
+    return answer;
+}
+
+numeric에서 inner_product 사용
+
+#include <vector>
+#include <numeric>
+using namespace std;
+
+int solution(vector<int> a, vector<int> b) {
+    return inner_product(a.begin(),a.end(),b.begin(),0);
+}
 
 */
 
 
 /* lv1. 소수 만들기
 
+#include <vector>
 
+using namespace std;
+
+bool ckeck_prime(int n) {
+    if (n == 0 || n == 1) return false;
+    for (int i = 2; i < n / 2; i++)
+    {
+        if (n % i == 0) return false;
+    }
+
+    return true;
+}
+
+int solution(vector<int> nums) {
+    int answer = 0;
+
+    for (int i = 0; i < nums.size() - 2; i++)
+    {
+        for (int j = i + 1; j < nums.size() - 1; j++)
+        {
+            for (int k = j + 1; k < nums.size(); k++)
+            {
+                int sum = nums[i] + nums[j] + nums[k];
+
+                if (ckeck_prime(sum)) answer++;
+            }
+        }
+    }
+
+    return answer;
+}
+
+*/
+
+
+/* lv1. 폰켓몬
+
+유니크는 정렬 후에 사용해야 한다?
+
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+int solution(vector<int> nums)
+{
+    int answer = 0;
+    int n = nums.size() / 2;
+
+    sort(nums.begin(), nums.end());
+    nums.erase(unique(nums.begin(), nums.end()), nums.end());
+
+    if(n >= nums.size()) answer = nums.size();
+    else answer = n;
+
+    return answer;
+}
+
+set을 활용
+
+정렬 후 i 와 i+1을 비교하여 중복 제거
+
+해시?
 
 */
 
 
 /* lv1. 완주하지 못한 선수
 
+#include <string>
+#include <vector>
+#include <algorithm>
 
+using namespace std;
+
+string solution(vector<string> participant, vector<string> completion) {
+    string answer = "";
+
+    sort(participant.begin(), participant.end());
+    sort(completion.begin(), completion.end());
+
+    for(int i = 0; i < participant.size(); i++)
+    {
+        if(participant[i] != completion[i])
+        {
+            answer = participant[i];
+            break;
+        }
+
+    return answer;
+}
+
+해시 이용
+
+#include <string>
+#include <vector>
+#include <unordered_set>
+using namespace std;
+
+string solution(vector<string> participant, vector<string> completion) {
+    string answer = "";
+    unordered_multiset<string> names;
+
+    for(int i = 0; i < participant.size(); i++)
+    {
+        names.insert(participant[i]);
+    }
+
+    for(int i = 0; i < completion.size(); i++)
+    {
+        unordered_multiset<string>::iterator itr = names.find(completion[i]);
+        names.erase(itr);
+    }
+
+    return *names.begin();
+}
+
+@@비트 연산자, 정렬도 해시도 사치다...?
+
+#include <string>
+#include <vector>
+
+using namespace std;
+char c[29];
+string solution(vector<string> a, vector<string> b) {
+    for(int j=0;j<21;j++){
+        c[j] = 0;
+    }
+    for(int i=0;i<a.size();i++){
+        for(int j=0;j<a[i].size();j++){
+            c[j]^=a[i][j];
+        }
+    }
+    for(int i=0;i<b.size();i++){
+        for(int j=0;j<b[i].size();j++){
+            c[j]^=b[i][j];
+        }
+    }
+    return string(c);
+}
 
 */
 
 
-/* lv1. K번째수
+/* lv1. K번째수 @@ 엄청 이상하게 푼 얘 있음. 이 전 문제일 수도
 
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+vector<int> solution(vector<int> array, vector<vector<int>> commands) {
+    vector<int> answer;
+
+
+    for (int i = 0; i < commands.size(); i++)
+    {
+        vector <int> tmp = array;
+
+        for (int j = 0; j < (commands[i][0] - 1); j++)
+            tmp.erase(tmp.begin());
+
+        for (int j = 0; j < array.size() - commands[i][1]; j++)
+            tmp.erase(tmp.end() - 1);
+
+        sort(tmp.begin(), tmp.end());
+
+        answer.push_back(tmp[commands[i][2] - 1]);
+    }
+
+    return answer;
+}
+
+sort를 특정 범위만 정렬하여 정답 구하기
+
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+vector<int> solution(vector<int> array, vector<vector<int>> commands) {
+    vector<int> answer;
+    vector<int> temp;
+
+    for(int i = 0; i < commands.size(); i++) {
+        temp = array;
+        sort(temp.begin() + commands[i][0] - 1, temp.begin() + commands[i][1]);
+        answer.push_back(temp[commands[i][0] + commands[i][2]-2]);
+    }
+
+    return answer;
+}
 
 
 */
@@ -253,62 +721,470 @@ string solution(string new_id) {
 
 /* lv1. 모의고사
 
+#include <string>
+#include <vector>
+#include <algorithm>
 
+using namespace std;
+
+vector<int> solution(vector<int> answers) {
+    vector<int> answer;
+
+    vector<vector<int>> type{ {1,2,3,4,5}, {2,1,2,3,2,4,2,5}, {3,3,1,1,2,2,4,4,5,5} };
+
+    vector<int> ok(3, 0);
+
+    for (int i = 0; i < answers.size(); i++)
+    {
+        if (answers[i] == type[0][i % 5])
+            ok[0]++;
+        if (answers[i] == type[1][i % 8])
+            ok[1]++;
+        if (answers[i] == type[2][i % 10])
+            ok[2]++;
+    }
+
+
+    int max_num = *max_element(ok.begin(), ok.end());
+
+
+    for (int i = 0; i < 3; i++)
+    {
+        if (max_num == ok[i])
+            answer.push_back(i + 1);
+    }
+
+    return answer;
+}
 
 */
 
 
 /* lv1. 체육복
 
+#include <vector>
+
+using namespace std;
+
+int solution(int n, vector<int> lost, vector<int> reserve) {
+    int answer = 0;
+
+    vector<int> v(n, 1);
+
+    for (int i = 0; i < lost.size(); i++)
+    {
+        v[lost[i] - 1]--;
+    }
+
+    for (int i = 0; i < reserve.size(); i++)
+    {
+        v[reserve[i] - 1]++;
+    }
+
+    for(int i = 0; i < v.size(); i++)
+    {
+        if(v[i] == 0)
+        {
+            if(i != 0 && v[i - 1] == 2)
+            {
+                v[i]++;
+                v[i - 1]--;
+            }
+            else if(i != v.size() - 1 && v[i + 1] == 2)
+            {
+                v[i]++;
+                v[i + 1]--;
+            }
+        }
+    }
+
+    for(int i = 0; i < v.size(); i++)
+    {
+        if(v[i] != 0)
+        {
+            answer++;
+        }
+    }
+
+    return answer;
+}
 
 
-*/
+for문을 짧게 쓰는 법 : 사용
 
+#include <vector>
 
-/* lv1. 폰켓몬
+using namespace std;
 
+int solution(int n, vector<int> lost, vector<int> reserve) {
+    int answer = 0;
 
+    vector<int> v(n, 1);
+
+    for (int i : lost) v[i - 1]--;
+
+    for (int i : reserve) v[i - 1]++;
+
+    for(int i = 0; i < v.size(); i++)
+    {
+        if(v[i] == 0)
+        {
+            if(i != 0 && v[i - 1] == 2)
+            {
+                v[i]++;
+                v[i - 1]--;
+            }
+            else if(i != v.size() - 1 && v[i + 1] == 2)
+            {
+                v[i]++;
+                v[i + 1]--;
+            }
+        }
+    }
+
+    for(int i : v)
+    {
+        if(i != 0) answer++;
+    }
+
+    return answer;
+}
 
 */
 
 
 /* lv1. 실패율
 
+#include <string>
+#include <vector>
+#include <algorithm>
 
+using namespace std;
+
+bool cmp(pair<int, float> a, pair<int, float> b)
+{
+    if (a.second != b.second)
+    {
+        return a.second > b.second;
+    }
+    else
+    {
+        return a.first < b.first;
+    }
+}
+
+vector<int> solution(int N, vector<int> stages) {
+    vector<int> answer;
+
+    vector<int> now_stage(N + 2, 0);
+    vector<pair<int, float>> stage_fail;
+
+    for (int i = 0; i < stages.size(); i++)
+    {
+        now_stage[stages[i]]++;
+    }
+
+    int all = stages.size();
+
+    for (int i = 0; i < N; i++)
+    {
+        if (now_stage[i + 1] == 0)
+        {
+            stage_fail.push_back({ i, 0 });
+        }
+        else
+        {
+        stage_fail.push_back({ i, (float)now_stage[i+1] / all});
+        }
+
+        all -= now_stage[i + 1];
+    }
+
+    sort(stage_fail.begin(), stage_fail.end(), cmp);
+
+    for (int i = 0; i < N; i++)
+    {
+        answer.push_back(stage_fail[i].first + 1);
+    }
+
+    return answer;
+}
 
 */
+
 
 
 /* lv1. 약수의 개수와 덧셈
 
+#include <vector>
 
+using namespace std;
+
+int solution(int left, int right) {
+    int answer = 0;
+
+    for(int i = left; i <= right; i++)
+    {
+        int tmp = 0;
+
+        for(int j = 1; j <= i; j++)
+        {
+            if(i % j == 0)
+            {
+                tmp ++;
+            }
+        }
+
+        if(tmp % 2 == 0)
+        {
+            answer += i;
+        }
+        else
+        {
+            answer -= i;
+        }
+    }
+
+    return answer;
+}
 
 */
 
 
+
 /* lv1. 3진법 뒤집기
 
+안사용.
 
+#include <vector>
+
+using namespace std;
+
+int solution(int n) {
+    int answer = 0;
+    vector<int> v;
+
+    while (n) {
+        v.push_back(n % 3);
+        n /= 3;
+    }
+
+
+    for (int i = 0; i < v.size(); ++i)
+    {
+    answer = answer * 3 + v[i];
+    }
+
+    return answer;
+}
+
+
+pop_back(뒤에서 부터 계산하려고)
+
+#include <vector>
+
+using namespace std;
+
+int solution(int n) {
+    int answer = 0;
+
+    vector<int> v;
+
+    while (n)
+    {
+        v.push_back(n % 3);
+        n /= 3;
+    }
+
+    int num = 1;
+
+    for (int i = 0; i < v.size(); i++)
+    {
+        answer += v.back() * num;
+        v.pop_back();
+        num *= 3;
+    }
+
+    return answer;
+}
+
+
+reverse, pow 사용.
+
+#include <string>
+#include <vector>
+#include <algorithm>
+#include <cmath>
+
+using namespace std;
+
+int solution(int n) {
+    int answer = 0;
+
+    vector<int> v;
+
+    while (n)
+    {
+        v.push_back(n % 3);
+        n /= 3;
+    }
+
+    reverse(v.begin(), v.end());
+
+    for (int i = 0; i < v.size(); i++)
+    {
+        answer += v[i] * pow(3, i);
+    }
+
+    return answer;
+}
 
 */
 
 
 /* lv1. 예산
 
+#include <vector>
+#include <algorithm>
 
+using namespace std;
+
+int solution(vector<int> d, int budget) {
+    int answer = 0;
+    int sum = 0;
+
+    sort(d.begin(), d.end());
+
+    for(int i = 0; i < d.size(); i++)
+    {
+        sum += d[i];
+        answer += 1;
+
+        if(sum > budget)
+        {
+            answer -= 1;
+            break;
+        }
+    }
+
+    return answer;
+}
+
+오우야... for문의 실행 조건에 저렇게...
+
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+int solution(vector<int> d, int budget) {
+    sort(d.begin(), d.end());
+    int i;
+    for (i = 0; (budget=budget-d[i]) >= 0 && i < d.size(); i++) ;
+    return i;
+}
 
 */
 
 
 /* lv1. 두 개 뽑아서 더하기
 
+set을 사용
 
+#include <string>
+#include <vector>
+#include <algorithm>
+#include <set>
+using namespace std;
+
+vector<int> solution(vector<int> numbers) {
+    vector<int> answer;
+
+    set<int> sum;
+
+    for(int i = 0; i < numbers.size(); ++i)
+    {
+        for(int j = i + 1; j < numbers.size() ;++j)
+        {
+            sum.insert(numbers[i] + numbers[j]);
+        }
+    }
+
+    answer.assign(sum.begin(), sum.end());
+
+    return answer;
+}
+
+
+for for sort unique 사용
+
+#include <string>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+vector<int> solution(vector<int> numbers) {
+    vector<int> answer;
+
+    for(int i = 0; i < numbers.size() - 1; i++)
+    {
+        for(int j = i + 1; j < numbers.size(); j++)
+        {
+            answer.push_back(numbers[i] + numbers[j]);
+        }
+    }
+
+    sort(answer.begin(), answer.end());
+
+    answer.erase(unique(answer.begin(), answer.end()), answer.end());
+
+    return answer;
+}
 
 */
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* lv1. 2016년
 
+배열
+
+#include <string>
+#include <vector>
+
+using namespace std;
+
+string solution(int a, int b) {
+    string answer = "";
+
+    string day[7] = {"FRI", "SAT", "SUN", "MON", "TUE", "WED", "THU"};
+    int month[13] = {0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+    int sum = 0;
+
+    sum += b - 1;
+
+    for(int i = 0; i < a; i++)
+    {
+        sum += month[i];
+    }
+
+    answer = day[sum%7];
+
+    return answer;
+}
 
 
 */
@@ -843,7 +1719,7 @@ vector<string> solution(vector<string> strings, int n) {
     return answer;
 }
 
-lamda 함수 사용 @@
+lamda 람다 함수 사용 @@
 
 #include <string>
 #include <vector>
@@ -1285,7 +2161,6 @@ string solution(string s) {
     return answer;
 }
 
-아스키 코드로 A~Z : 65~90, a~z : 97~ 122 대소문자 32차이
 
 #include <string>
 #include <vector>
@@ -1891,4 +2766,132 @@ int main(void) {
 
     return 0;
 }
+*/
+
+
+/*
+set container(연관 컨테이너)
+
+<set> 헤더 파일
+
+노드 기반 컨테이너, 균형 이즌트리
+
+key라 불리는 원소들의 집합으로 이루어짐.
+
+ket 값은 중복이 허용되지 않는다.
+
+insert 멤버 함수에 의해 삽입이 되면 원소는 자동으로 정렬 된다.
+
+default 정렬기준은 less(오름차순)이다.
+
+)
+
+set <data type> 변수 이름
+
+ex) set <int> s;
+ex) set <int> s(pred);  // 변수 이름(정렬기준)
+ex) set <int> s2(s1);   // s1을 복사한 s2
+
+연산자 ==, !=, <, >, <=, >= 사용 가능
+
+s.begin()   // 맨 첫번째 원소를 가리키는 반복자를 리턴.
+s.end() // 맨 마지막 원소(의 다음)를 가리키는 원소의 끝부분을 알 때 사용? 반복자를 리턴.
+
+s.rbegin();
+s.rend();
+
+s.clear();  // 모든 원소 제거
+
+s.count(k);  // 원소 k의 갯수를 반환(set은 중복이 허용되지 않으므로 0 or 1)
+
+s.insert(k);    // 원소 k를 삽입(자동으로 정렬된 위치에)
+s.insert(iter, k);  // iter가 가리키는 위치 부터 k를 삽입할 위치를 탐색하여 삽입.
+
+s.erase(iter);  // iter가 가리키는 원소를 제거. 제거 한 다음 제거 한 원소 다음 원소를 가리키는 반복자를 리턴.
+s.erase(start, end);    // [start, end) 범위의 원소를 모두 제거
+
+s.fiond(k); // 원소 k를 가리키는 반복자를 반환, 우너소 k가 없다면 s.end()와 같은 반복자를 반환.
+
+s2.swap(s1);    // s1과 s2를 바꾼다.
+
+s.upper_biund(k);   // 원소 k가 끝나는 구간의 반복자.
+s.lower_biund(k);   // 원소 k가 시작하는 구간의 반복자.
+
+s.equal_range(k);   // 원소 k가 시작하는 구간과 끝나는 구간의 반복자 pair 객체를 반환.
+
+s.value_comp();
+s.key_comp();   // 정렬 기준 조건자를 반환, set 에서 두개의 함수 반환형이 같다.
+
+s.size(); 사이즈(원소의 갯수) 반환.
+
+s.max_size();   // 최대 사이즈(남은 메모리 크기)를 반환.
+
+*/
+
+
+/*
+
+lamda(람다)
+
+
+
+*/
+
+/*
+
+unique(유니크)
+
+
+
+*/
+
+
+
+/*
+
+ASCII code(아스키 코드)
+
+
+알파벳
+
+A~Z : 65~90, a~z : 97~ 122 
+
+대소문자 32차이
+
+숫자
+
+
+
+
+
+
+*/
+
+
+/*
+
+vector(벡터)
+
+
+assign
+
+벡터 객체에 이전에 있었던 원소들을 모두 삭제하고, 인자로 새로운 내용을 집어 넣는다.
+
+void assign(inputiterator first, inputiterator last);
+first부터 last바로 직전까지의 원소들을 벡터에 대입한다.
+
+void assign(size_type n, const T& u);
+원소 u를 n개 가지는 벡터로 만든다.(n은 부호 없는 정수, u는 반복될 원소로 T타입)
+
+리턴 값 x
+
+
+
+
+
+
+
+
+
+
 */
