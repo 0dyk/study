@@ -1,3 +1,5 @@
+### [MAIN](/cs/cs-study)
+
 영상: https://www.youtube.com/playlist?list=PLRx0vPvlEmdDgOIBt9MKQl-uMVrxtac4n
 
 ### [1강 이산수학 개요](이산수학-개요.md)
