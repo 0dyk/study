@@ -23,6 +23,7 @@
 
 <details>
 <summary>블로그 : https://brunch.co.kr/@toughrogrammer/8</summary>
+  
 - 1차 논리(First Order Logic)
 - 나머지 연산(Modular Arthimetic)
 - 이항관계(Binary Relation)
