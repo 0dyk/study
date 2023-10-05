@@ -21,7 +21,6 @@
 컴퓨터 연산을 이해하기 위해 필요한 수학적 이론을 쉽게 풀어낸 이산수학 입문서임. 기본적인 수학지식과 컴퓨터 관련지식을 이해하고 있다면 학습에 많은 도움이 될것임
 </details>
 
-<details>
 <summary>블로그 : https://brunch.co.kr/@toughrogrammer/8</summary>
 
 <details>
