@@ -1,4 +1,4 @@
-### [MAIN](/cs/cs-study)
+### [메인](/cs/cs-study)
 
 영상: https://www.youtube.com/playlist?list=PLRx0vPvlEmdDgOIBt9MKQl-uMVrxtac4n
 
