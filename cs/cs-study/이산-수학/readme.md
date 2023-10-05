@@ -23,13 +23,6 @@
 
 <details>
 <summary>블로그 : https://brunch.co.kr/@toughrogrammer/8</summary>
-  
-- 1차 논리(First Order Logic)
-- 나머지 연산(Modular Arthimetic)
-- 이항관계(Binary Relation)
-- 부분 순서(Partial Order)
-- 불 대수(Boolean Algebra)
-</details>
 
 <details>
 <summary>이산수학의 범위</summary>
@@ -46,6 +39,8 @@
 - 조합론?-셈(순열,조합,확률)
 - 알고리즘
 - 오토마타
+</details>
+
 - 촘스키 위계
 - 형식 언어와 생성 규칙, 연산
 - 정규 언어
