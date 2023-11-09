@@ -2,11 +2,11 @@
 
 ### 시험일 : 23.11.18 / 10:00 ~ 11:30
 
-### 공부 기간 : ~ 23.11.18
+### 공부 기간?
 
 <details>
 <summary>참고 자료</summary>
-- 개념 공부 : 2시간 완성 SQLD 핵심 요약(유튜브)
+- 개념
     - 1과목 (https://www.youtube.com/watch?v=gmMaH5mMJ9M&ab_channel=EPASSKOREA)
     - 2과목 (https://www.youtube.com/watch?v=mKCQLJCwZ_8&ab_channel=EPASSKOREA)
 
