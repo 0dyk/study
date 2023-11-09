@@ -6,11 +6,11 @@
 
 <details>
 <summary>참고 자료</summary>
-- 개념
-    - 1과목 (https://www.youtube.com/watch?v=gmMaH5mMJ9M&ab_channel=EPASSKOREA)
-    - 2과목 (https://www.youtube.com/watch?v=mKCQLJCwZ_8&ab_channel=EPASSKOREA)
-
-- 기출 문제 : 00회 ~ 00회
+    
+    - 개념
+        - 1과목 (https://www.youtube.com/watch?v=gmMaH5mMJ9M&ab_channel=EPASSKOREA)
+        - 2과목 (https://www.youtube.com/watch?v=mKCQLJCwZ_8&ab_channel=EPASSKOREA)
+    - 기출 문제 : 00회 ~ 00회
 </details>
 
 ### [1 과목](./lesson_1.md)
